@@ -43,7 +43,7 @@ sub get_info {
    my $client = new JSON::RPC::Client;
 
    my $obj = {
-      'method'  => 'getinfo',
+      method  => 'getinfo',
    };
    my $res = $client->call( $url, $obj );
 
@@ -52,13 +52,10 @@ sub get_info {
          print "Error : ", $res->error_message;
       } 
       return $res->result;
-   } else {
-      print $client->status_line."\n";
    }
 
-   # Do something if there's and error
-   #my $json = &handle_error($res->result);
-   return "Need to figure out a way to handle errors. ->call doesn't even return an object."; 
+   # Else the service is down or incorrect
+   return; 
 }
 
 =cut
@@ -68,22 +65,29 @@ sub get_info {
 =cut
 
 sub get_account {
+
    my $self = shift;
-   my $cmd  = $self->path . "-rpcssl -rpcconnect=" . $self->host . " -rpcuser=" . $self->user . " -rpcpassword=" . $self->password . " ";
+   my $url = "https://" . $self->user . ":" . $self->password . "\@" . $self->host . ":8332";
 
-   # Args
-   my ($address) = @_; 
+   my $address = shift;
 
-   # The bitcoin function
-   $cmd    .= "getaccount '$address'";  
+   my $client = new JSON::RPC::Client;
 
-   my $result;
-   $result = `$cmd 2>&1`; 
+   my $obj = {
+      method  => 'getaccount',
+      params  => [ $address ]
+   };
+   my $res = $client->call( $url, $obj );
 
-   # Do something if there's and error
-   $result = &handle_error($result);
+   if($res) {
+      if ($res->is_error) {
+         print "Error : ", $res->error_message;
+      }
+      return $res->result;
+   } 
 
-   return $result;
+   # Else the service is down or incorrect
+   return;
 }
 
 =cut
