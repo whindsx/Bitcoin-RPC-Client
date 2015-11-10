@@ -20,18 +20,18 @@ $btcd = BitcoinPM->new(
     host     => $RPCHOST,
 );
 
-$info    = $btcd->get_info;
+$info    = $btcd->getinfo;
 $balance = $info->{balance};
 
 print $balance;
 
-#$account  = $btcd->get_account("18hrZZjnNEJiSZArcLhFF3HmXbaL8xeWAW");
+#$account  = $btcd->getaccount("18hrZZjnNEJiSZArcLhFF3HmXbaL8xeWAW");
 #print $account;
 
-#$balance  = $btcd->get_balance("root");
+#$balance  = $btcd->getbalance("root");
 #print $balance;
 
-#$amount  = $btcd->get_received_by_account("xyz2013");
+#$amount  = $btcd->getreceivedbyaccount("xyz2013");
 #print $amount;
 
 exit(0);
