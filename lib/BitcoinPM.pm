@@ -17,6 +17,34 @@ has host     => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
 
 =cut
+   client_operation. Aggregates the common RPC/JSON operations into
+   one place.
+=cut
+
+sub client_operation{
+   my $self = shift;
+   my $url = "https://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
+
+   my $obj = shift;
+
+   my $client = $self->jsonrpc;
+
+   my $res = $client->call( $url, $obj );
+
+   if($res) {
+      if ($res->is_error) {
+         print STDERR "error : ", $res->error_message->{message};
+         return $res->error_message;
+      }
+      return $res->result;
+   }
+
+   # Else the service is down or incorrect
+   print STDERR $client->status_line;                                                                                                     
+   return;
+}
+
+=cut
   getinfo
          Returns an object containing server information.
 
@@ -39,26 +67,12 @@ has port     => (is => "lazy", default => 8332);
 
 sub getinfo {
    my $self = shift;
-   my $url = "https://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
-
-   my $client = $self->jsonrpc; 
 
    my $obj = {
       method  => 'getinfo',
    };
-   my $res = $client->call( $url, $obj );
 
-   if($res) {
-      if ($res->is_error) {
-         print STDERR "error : ", $res->error_message->{message}; 
-         return $res->error_message;
-      } 
-      return $res->result;
-   }
-
-   # Else the service is down or incorrect
-   print STDERR $client->status_line;
-   return; 
+   return &client_operation($self,$obj);
 }
 
 =cut
@@ -70,29 +84,14 @@ sub getinfo {
 sub getaccount {
 
    my $self = shift;
-   my $url = "https://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
-
    my $address = shift;
-
-   my $client = $self->jsonrpc; 
 
    my $obj = {
       method  => 'getaccount',
       params  => [ $address ]
    };
-   my $res = $client->call( $url, $obj );
 
-   if($res) {
-      if ($res->is_error) {
-         print STDERR "error : ", $res->error_message->{message};
-         return $res->error_message;
-      }
-      return $res->result;
-   }
-
-   # Else the service is down or incorrect
-   print STDERR $client->status_line;
-   return;
+   return &client_operation($self,$obj);
 }
 =cut
 
@@ -104,29 +103,14 @@ sub getaccount {
 sub getbalance {
 
    my $self = shift;
-   my $url = "https://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port; 
-
    my $account = shift;
-
-   my $client = $self->jsonrpc; 
 
    my $obj = {
       method  => 'getbalance',
       params  => [ $account ]
    };
-   my $res = $client->call( $url, $obj );
 
-   if($res) {
-      if ($res->is_error) {
-         print STDERR "error : ", $res->error_message->{message};
-         return $res->error_message;
-      }
-      return $res->result;
-   }
-
-   # Else the service is down or incorrect
-   print STDERR $client->status_line;
-   return;
+   return &client_operation($self,$obj);
 }
 
 =cut
@@ -139,31 +123,17 @@ sub getbalance {
 sub getreceivedbyaccount {
 
    my $self = shift;
-   my $url = "https://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
-
    my $account = shift;
    my $minconf = shift;
 
-   my $client = $self->jsonrpc; 
-
    my $obj = {
       method  => 'getreceivedbyaccount',
-      params  => [ $account, "minconf=$minconf" ]
+      params  => [ $account ]
    };
 
-   my $res = $client->call( $url, $obj );
+   push $obj->{params},"minconf=$minconf" if ($minconf);
 
-   if($res) {
-      if ($res->is_error) {
-         print STDERR "error : ", $res->error_message->{message};
-         return $res->error_message;
-      }
-      return $res->result;
-   }
-
-   # Else the service is down or incorrect
-   print STDERR $client->status_line;
-   return;
+   return &client_operation($self,$obj);
 } 
 
 =cut                                                                                                                                      
@@ -175,58 +145,22 @@ sub getreceivedbyaccount {
 
 sub move {
    my $self = shift;                                                                                                                       
-   my $cmd  = $self->path . " -rpcuser=" . $self->user . " -rpcpassword=" . $self->password . " ";                                         
 
-   # Args                                                                                                                                  
-   my ($account_src,$account_dest,$amount) = @_;
+   my $fromaccount = shift;
+   my $toaccount = shift;
+   my $amount = shift;
+   my $minconf = shift;
+   my $comment = shift;
 
-   # The bitcoin function                                                                                                                  
-   $cmd    .= "move '$account_src' '$account_dest' '$amount'";
+   my $obj = {
+      method  => 'move',
+      params  => [ $fromaccount, $toaccount, $amount ]
+   };
+   # Add optional params
+   push $obj->{params},"minconf=$minconf" if ($minconf);
+   push $obj->{params}, $comment if ($comment);
 
-   my $result;                                                                                                                             
-   $result = `$cmd 2>&1`;                                                                                                                 
-
-   # Do something if there's and error                                                                                                    
-   $result = &handle_error($result);                                                                                                      
-
-   return $result;
-}
-
-=cut
-
-   handle_error
-         Return JSON error output as something readable
-
-=cut
-
-sub handle_error {
-   # Get params and url
-   my $obj = shift;
-   my $uri = shift;                                                                                                         
-
-   use LWP::UserAgent;
-
-   # JSON Format the params
-   my @jsonList;
-   push (@jsonList, $obj);
-   my $json = JSON::to_json(\@jsonList);
-
-
-   #my $uri = "https://$RPCUSER:$RPCPASSWORD\@$RPCHOST:8332";
-   my $req = HTTP::Request->new('POST', $uri);
-   $req->header('Content-Type' => 'application/json');
-   $req->content($json);
-
-   my $ua = LWP::UserAgent->new;
-   my $res = $ua->request($req);
-
-   my $result = $res->content;
-   $result =~ s/\[//g;
-   $result =~ s/\]//g;
-
-   my $decoded = decode_json($result);
-
-   return $decoded->{'error'}{'message'};;
+   return &client_operation($self,$obj);
 }
 
 1;
