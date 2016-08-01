@@ -1,6 +1,8 @@
 #!/usr/bin/perl 
 
-require("./lib/BitcoinPM.pm");
+#require("./lib/BitcoinPM.pm");
+
+use BTC;
 
 ##
 # Bitcoin global Vars (user supplied)
@@ -14,7 +16,7 @@ $RPCUSER = "YourBitcoindRPCUserName";
 $RPCPASSWORD = 'YourBitcoindRPCPassword';
 
 # Create RPC object
-$btcd = BitcoinPM->new(
+$btcd = BTC->new(
     user     => $RPCUSER,
     password => $RPCPASSWORD,
     host     => $RPCHOST,
