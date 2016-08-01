@@ -1,16 +1,13 @@
 BTC
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+This is not a complete implementation of all the bitcoin-cli functions.
+Only a few have been implementedi, but it will work. Installation is as
+simple as what is below. Dependencies have been kept low and simple.
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
-
+PREREQUISITES 
+   Moo 
+   JSON
+   JSON::RPC::Client
 
 INSTALLATION
 
