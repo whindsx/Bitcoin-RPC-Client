@@ -1,7 +1,5 @@
 #!/usr/bin/perl 
 
-#require("./lib/BitcoinPM.pm");
-
 use BTC;
 
 ##
