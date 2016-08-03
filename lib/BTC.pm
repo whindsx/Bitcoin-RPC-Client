@@ -19,7 +19,7 @@ has port     => (is => "lazy", default => 8332);
 # one place.
 sub client_operation{
    my $self = shift;
-   my $url = "https://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
+   my $url = "http://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
 
    my $obj = shift;
 
@@ -111,7 +111,7 @@ sub getreceivedbyaccount {
       params  => [ $account ]
    };
 
-   push $obj->{params},"minconf=$minconf" if ($minconf);
+   push @{$obj->{params}}, $minconf if ($minconf);
 
    return &client_operation($self,$obj);
 } 
@@ -132,14 +132,15 @@ sub move {
       params  => [ $fromaccount, $toaccount, $amount ]
    };
    # Add optional params
-   push $obj->{params},"minconf=$minconf" if ($minconf);
-   push $obj->{params}, $comment if ($comment);
+   push @{$obj->{params}}, $minconf if ($minconf);
+   push @{$obj->{params}}, $comment if ($comment);
 
    return &client_operation($self,$obj);
 }
 
 # listaccounts 1 true
 #     lists accounts and their balances.
+#     Returns JSON object
 sub listaccounts{
 
    my $self = shift;                                                                                                                       
@@ -151,8 +152,8 @@ sub listaccounts{
       method  => 'listaccounts',                                                                                                                  
    };                                                                                                                                     
    # Add optional params                                                                                                                  
-   push $obj->{params},"minconf=$minconf" if ($minconf);
-   push $obj->{params}, $watch if ($watch);
+   push @{$obj->{params}}, $minconf if ($minconf);
+   push @{$obj->{params}}, $watch if ($watch);
 
    return &client_operation($self,$obj);
 }
