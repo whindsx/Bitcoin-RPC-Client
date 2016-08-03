@@ -7,26 +7,38 @@ use JSON::RPC::Client;
 
 our $VERSION  = '0.01';
 
-$ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
-
 has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Client"->new });
 has user     => (is => 'ro');
 has password => (is => 'ro');
 has host     => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
 
+# SSL constructor options
+has ssl      => (is => 'ro', default => 0);
+has verify_hostname => (is => 'ro', default => 1);
+
 # client_operation. Aggregates the common RPC/JSON operations into
 # one place.
 sub client_operation{
    my $self = shift;
-   my $url = "http://" . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
+
+   # Are we using SSL?
+   my $uri = "http://";
+   if ($self->ssl eq 1) {
+      $uri = "https://";
+   } 
+   my $url = $uri . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
 
    my $obj = shift;
 
    my $client = $self->jsonrpc;
+   $client->ua->timeout(20); # Because bitcoind is slow
+   # For self signed certs
+   if ($self->verify_hostname eq 0) {
+      $client->ua->ssl_opts( verify_hostname => 0 ); 
+   }
 
    my $res = $client->call( $url, $obj );
-
    if($res) {
       if ($res->is_error) {
          print STDERR "error : ", $res->error_message->{message};
@@ -213,6 +225,7 @@ $btc = BTC->new(
     user     => $RPCUSER, 
     password => $RPCPASSWORD, 
     host     => $RPCHOST, 
+    ssl      => 1 # Optional 
 ); 
 
 # Getting Data when a hash is returned
