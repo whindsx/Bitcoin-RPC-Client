@@ -7,12 +7,18 @@ reference two manuals.
 https://bitcoin.org/en/developer-reference#getinfo
 
 Currently only a few functions are implemented and tested against Bitcoin 
-Core v0.11.1.
+Core v0.12.1.
 
-Dependencies:
+DEPENDENCIES:
    - Moo
    - JSON
    - JSON::RPC::Client
+
+INSTALL:
+   - perl Makefile.PL
+   - make
+   - make test
+   - make install
 
 TODO:
    - Implement the rest of the standard bitcoin-cli functions
