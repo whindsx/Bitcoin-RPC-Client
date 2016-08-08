@@ -5,6 +5,8 @@ use Moo;
 use JSON;
 use JSON::RPC::Client;
 
+#use Data::Dumper;
+
 our $VERSION  = '0.01';
 
 has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Client"->new });
@@ -29,7 +31,14 @@ sub client_operation{
    } 
    my $url = $uri . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
 
-   my $obj = shift;
+   my $method = shift;
+   $method = getMethodName($method);
+   my $obj = {
+      method  => "$method",
+      params  => [] 
+   };   
+
+   push @{$obj->{params}}, @_ if (@_);   
 
    my $client = $self->jsonrpc;
    $client->ua->timeout(20); # Because bitcoind is slow
@@ -44,14 +53,55 @@ sub client_operation{
          print STDERR "error : ", $res->error_message->{message};
          return $res->error_message;
       }
+
       return $res->result;
    }
+
+   #print Dumper($res->result);
 
    # Else the service is down or incorrect
    print STDERR $client->status_line;                                                                                                     
    return;
 }
 
+sub getMethodName {
+   my ($method) = @_; 
+   my $pkg = __PACKAGE__;
+   $method =~ s/$pkg\:\://g;
+   return $method;
+}
+
+#
+# Use prepare rather than write each function?
+#
+# #$client->prepare($uri, ['sum', 'echo']);
+#
+# @methods = ['geinfo,'getbalance']
+# $client->prepare($uri, @methods);
+#
+# return $client;
+
+sub getinfo { 
+   my $self = shift;
+   return &client_operation($self,(caller(0))[3],@_); 
+}
+
+sub getbalance {
+   my $self = shift;
+   return &client_operation($self,(caller(0))[3],@_);
+}
+
+sub getblockcount {
+   my $self = shift;                                                                                                                      
+   return &client_operation($self,(caller(0))[3],@_);    
+}
+
+sub listaccounts {
+   my $self = shift;
+   return &client_operation($self,(caller(0))[3],@_);
+}
+
+=cut
 # getinfo
 #{
 #    "version" : 110100,
@@ -79,6 +129,7 @@ sub getinfo {
 
    return &client_operation($self,$obj);
 }
+=cut
 
 # getaccount 'bitcoinaddress'
 #     Returns the account associated with the given address.
@@ -95,6 +146,7 @@ sub getaccount {
    return &client_operation($self,$obj);
 }
 
+=cut
 # getbalance 'account'
 #     Returns the server's available balance, or the balance for 'account'.
 sub getbalance {
@@ -109,6 +161,7 @@ sub getbalance {
 
    return &client_operation($self,$obj);
 }
+=cut
 
 # getreceivedbyaccount 'account' ['minconf=1']
 #     Returns the total amount received by addresses associated with 'account' in transactions with at least ['minconf'] confirmations.
@@ -153,6 +206,7 @@ sub move {
 # listaccounts 1 true
 #     lists accounts and their balances.
 #     Returns JSON object
+=cut
 sub listaccounts{
 
    my $self = shift;                                                                                                                       
@@ -169,6 +223,7 @@ sub listaccounts{
 
    return &client_operation($self,$obj);
 }
+=cut
 
 #     The backupwallet RPC safely copies wallet.dat to the specified file, i
 #     which can be a directory or a path with filename.
