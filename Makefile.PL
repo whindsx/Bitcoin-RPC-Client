@@ -19,7 +19,6 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'Moo'               => 1.001,
-        'JSON'              => 2.55,
         'JSON::RPC::Client' => 0.93,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
