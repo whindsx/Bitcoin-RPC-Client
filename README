@@ -1,12 +1,11 @@
 BTC
 
 This is not a complete implementation of all the bitcoin-cli functions.
-Only a few have been implementedi, but it will work. Installation is as
+Only a few have been implemented, but it will work. Installation is as
 simple as what is below. Dependencies have been kept low and simple.
 
 PREREQUISITES 
    Moo 
-   JSON
    JSON::RPC::Client
 
 INSTALLATION
@@ -39,6 +38,10 @@ You can also look for information at:
     Search CPAN
         http://search.cpan.org/dist/BTC/
 
+AVAILABILITY
+
+The latest branch is avaiable from Github:
+   https://github.com/whinds84/BitcoinPM
 
 LICENSE AND COPYRIGHT
 
