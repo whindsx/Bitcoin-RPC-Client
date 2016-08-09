@@ -11,7 +11,6 @@ Core v0.12.1.
 
 DEPENDENCIES:
    - Moo
-   - JSON
    - JSON::RPC::Client
 
 INSTALL:

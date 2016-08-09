@@ -2,10 +2,9 @@ package BTC;
 
 use 5.008;
 use Moo;
-use JSON;
 use JSON::RPC::Client;
 
-#use Data::Dumper;
+use BTC::API;
 
 our $VERSION  = '0.01';
 
@@ -14,38 +13,44 @@ has user     => (is => 'ro');
 has password => (is => 'ro');
 has host     => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
+has timeout  => (is => "lazy", default => 20);
 
 # SSL constructor options
 has ssl      => (is => 'ro', default => 0);
 has verify_hostname => (is => 'ro', default => 1);
 
-# client_operation. Aggregates the common RPC/JSON operations into
-# one place.
-sub client_operation{
-   my $self = shift;
+sub AUTOLOAD {
+   my $self   = shift;
+   my $method = $BTC::AUTOLOAD;
+
+   $method =~ s/.*:://;
+
+   return if ($method eq 'DESTROY');
+
+   $method =~ s/^__(\w+)__$/$1/;  # avoid to call built-in methods (ex. __VERSION__ => VERSION)
+
+   # Check that method is even availabe in the API
+   hasMethod($method);
 
    # Are we using SSL?
    my $uri = "http://";
    if ($self->ssl eq 1) {
       $uri = "https://";
-   } 
+   }
    my $url = $uri . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
 
-   my $method = shift;
-   $method = getMethodName($method);
-   my $obj = {
-      method  => "$method",
-      params  => [] 
-   };   
-
-   push @{$obj->{params}}, @_ if (@_);   
-
    my $client = $self->jsonrpc;
-   $client->ua->timeout(20); # Because bitcoind is slow
+   $client->ua->timeout($self->timeout); # Because bitcoind is slow
    # For self signed certs
    if ($self->verify_hostname eq 0) {
-      $client->ua->ssl_opts( verify_hostname => 0 ); 
+      $client->ua->ssl_opts( verify_hostname => 0 );
    }
+
+   my @params = @_;
+   my $obj = {
+      method => $method,
+      params => (ref $_[0] ? $_[0] : [@_]),
+   };
 
    my $res = $client->call( $url, $obj );
    if($res) {
@@ -57,204 +62,29 @@ sub client_operation{
       return $res->result;
    }
 
-   #print Dumper($res->result);
-
    # Else the service is down or incorrect
-   print STDERR $client->status_line;                                                                                                     
+   print STDERR $client->status_line;
    return;
 }
 
-sub getMethodName {
-   my ($method) = @_; 
-   my $pkg = __PACKAGE__;
-   $method =~ s/$pkg\:\://g;
-   return $method;
-}
+sub hasMethod {
+   my ($method) = @_;
 
-#
-# Use prepare rather than write each function?
-#
-# #$client->prepare($uri, ['sum', 'echo']);
-#
-# @methods = ['geinfo,'getbalance']
-# $client->prepare($uri, @methods);
-#
-# return $client;
+   # Check that method is even availabe in the API
+   my $hasMethod = 0;
+   foreach my $meth (@BTC::API::methods) {
+      if (lc($meth) eq lc($method)) {
+         $hasMethod = 1;
+         last;
+      }
+   }
 
-sub getinfo { 
-   my $self = shift;
-   return &client_operation($self,(caller(0))[3],@_); 
-}
+   if (!$hasMethod) {
+      print STDERR "error message: Method does not exist";
+      exit(0);
+   }
 
-sub getbalance {
-   my $self = shift;
-   return &client_operation($self,(caller(0))[3],@_);
-}
-
-sub getblockcount {
-   my $self = shift;                                                                                                                      
-   return &client_operation($self,(caller(0))[3],@_);    
-}
-
-sub listaccounts {
-   my $self = shift;
-   return &client_operation($self,(caller(0))[3],@_);
-}
-
-=cut
-# getinfo
-#{
-#    "version" : 110100,
-#    "protocolversion" : 70002,
-#    "walletversion" : 60000,
-#    "balance" : 0.01787039,
-#    "blocks" : 388586,
-#    "timeoffset" : 34,
-#    "connections" : 16,
-#    "proxy" : "",
-#    "difficulty" : 79102380900.22598267,
-#    "testnet" : false,
-#    "keypoololdest" : 1401215157,
-#    "keypoolsize" : 101,
-#    "paytxfee" : 0.00005000,
-#    "relayfee" : 0.00005000,
-#    "errors" : "Warning: This version is obsolete; upgrade required!"
-#}
-sub getinfo {
-   my $self = shift;
-
-   my $obj = {
-      method  => 'getinfo',
-   };
-
-   return &client_operation($self,$obj);
-}
-=cut
-
-# getaccount 'bitcoinaddress'
-#     Returns the account associated with the given address.
-sub getaccount {
-
-   my $self = shift;
-   my $address = shift;
-
-   my $obj = {
-      method  => 'getaccount',
-      params  => [ $address ]
-   };
-
-   return &client_operation($self,$obj);
-}
-
-=cut
-# getbalance 'account'
-#     Returns the server's available balance, or the balance for 'account'.
-sub getbalance {
-
-   my $self = shift;
-   my $account = shift;
-
-   my $obj = {
-      method  => 'getbalance',
-      params  => [ $account ]
-   };
-
-   return &client_operation($self,$obj);
-}
-=cut
-
-# getreceivedbyaccount 'account' ['minconf=1']
-#     Returns the total amount received by addresses associated with 'account' in transactions with at least ['minconf'] confirmations.
-sub getreceivedbyaccount {
-
-   my $self = shift;
-   my $account = shift;
-   my $minconf = shift;
-
-   my $obj = {
-      method  => 'getreceivedbyaccount',
-      params  => [ $account ]
-   };
-
-   push @{$obj->{params}}, $minconf if ($minconf);
-
-   return &client_operation($self,$obj);
-} 
-
-# move <'fromaccount'> <'toaccount'> <'amount'> ['minconf=1'] ['comment']
-#     Moves funds between accounts.
-sub move {
-   my $self = shift;                                                                                                                       
-
-   my $fromaccount = shift;
-   my $toaccount = shift;
-   my $amount = shift;
-   my $minconf = shift;
-   my $comment = shift;
-
-   my $obj = {
-      method  => 'move',
-      params  => [ $fromaccount, $toaccount, $amount ]
-   };
-   # Add optional params
-   push @{$obj->{params}}, $minconf if ($minconf);
-   push @{$obj->{params}}, $comment if ($comment);
-
-   return &client_operation($self,$obj);
-}
-
-# listaccounts 1 true
-#     lists accounts and their balances.
-#     Returns JSON object
-=cut
-sub listaccounts{
-
-   my $self = shift;                                                                                                                       
-
-   my $minconf = shift;
-   my $watch = shift;
-
-   my $obj = {                                                                                                                            
-      method  => 'listaccounts',                                                                                                                  
-   };                                                                                                                                     
-   # Add optional params                                                                                                                  
-   push @{$obj->{params}}, $minconf if ($minconf);
-   push @{$obj->{params}}, $watch if ($watch);
-
-   return &client_operation($self,$obj);
-}
-=cut
-
-#     The backupwallet RPC safely copies wallet.dat to the specified file, i
-#     which can be a directory or a path with filename.
-sub backupwallet{
-
-   my $self = shift;
-
-   my $dest = shift;
-
-   my $obj = {
-      method  => 'backupwallet',
-      params  => [ $dest ]
-   };
-
-   return &client_operation($self,$obj);
-}
-
-# validateaddress mgnucj8nYqdrPFh2JfZSB1NmUThUGnmsqe
-#     returns information about the given Bitcoin address
-sub validateaddress{
-
-   my $self = shift;
-
-   my $address = shift;
-
-   my $obj = {
-      method  => 'validateaddress',
-      params  => [ $address ]
-   };
-
-   return &client_operation($self,$obj);
+   return 1;
 }
 
 1;
@@ -267,21 +97,21 @@ BTC - Bitcoin Core API RPCs
 
 =head1 SYNOPSIS
 
-use BTC; 
- 
-# Your bitcoind instances credentials  
-$RPCHOST = "Your.IP.Address.Here";  
-$RPCUSER = "YourBitcoindRPCUserName"; 
-$RPCPASSWORD = 'YourBitcoindRPCPassword'; 
+use BTC;
+
+# Your bitcoind instances credentials
+$RPCHOST = "Your.IP.Address.Here";
+$RPCUSER = "YourBitcoindRPCUserName";
+$RPCPASSWORD = 'YourBitcoindRPCPassword';
 # RPC Port defaults to 8332
 
 # Create BTC object
-$btc = BTC->new( 
-    user     => $RPCUSER, 
-    password => $RPCPASSWORD, 
-    host     => $RPCHOST, 
-    ssl      => 1 # Optional 
-); 
+$btc = BTC->new(
+    user     => $RPCUSER,
+    password => $RPCPASSWORD,
+    host     => $RPCHOST,
+    ssl      => 1 # Optional
+);
 
 # Getting Data when a hash is returned
 $info    = $btc->getinfo;
@@ -313,26 +143,11 @@ print $balance;
 
 =head1 DESCRIPTION
 
-This module implements in PERL the functions that are currently part of the 
-Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters 
-are identical between the Bitcoin Core API and this module. This is done for 
+This module implements in PERL the functions that are currently part of the
+Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters
+are identical between the Bitcoin Core API and this module. This is done for
 consistency so that a developer does not have to reference two manuals.
 https://bitcoin.org/en/developer-reference#getinfo
-
-=head2 Methods                                                                                                                                      
-                                                                                                                                                    
-=over 12                                                                                                                                            
-                                                                                                                                                    
-=item getinfo 
-=item getaccount
-=item getbalance
-=item getreceivedbyaccount 
-=item move 
-=item listaccounts 
-=item backupwallet 
-=item validateaddress
-
-=back
 
 =head1 AUTHOR
 
