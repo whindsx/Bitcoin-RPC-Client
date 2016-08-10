@@ -97,25 +97,25 @@ BTC - Bitcoin Core API RPCs
 
 =head1 SYNOPSIS
 
-use BTC;
 
-# Your bitcoind instances credentials
-$RPCHOST = "Your.IP.Address.Here";
-$RPCUSER = "YourBitcoindRPCUserName";
-$RPCPASSWORD = 'YourBitcoindRPCPassword';
-# RPC Port defaults to 8332
+   # Your bitcoind instances credentials
+   $rpchost = "Your.IP.Address.Here";
+   $rpcuser = "YourBitcoindRPCUserName";
+   $rpcpassword = "YourBitcoindRPCPassword";
+   # rpcport defaults to 8332
 
-# Create BTC object
-$btc = BTC->new(
-    user     => $RPCUSER,
-    password => $RPCPASSWORD,
-    host     => $RPCHOST,
-    ssl      => 1 # Optional
-);
+   # Create BTC object
+   $btc = BTC->new(
+      user     => $rpcuser,
+      password => $rpcpassword,
+      host     => $rpchost,
+      ssl      => 1 # Optional
+   );
 
-# Getting Data when a hash is returned
-$info    = $btc->getinfo;
-$balance = $info->{balance};
+   # Getting Data when a hash is returned
+   $info    = $btc->getinfo;
+   $balance = $info->{balance};
+   print $balance;
 
   A person would need to know the JSON elements of
   the output. Ex.
@@ -136,17 +136,16 @@ $balance = $info->{balance};
       "errors" : ""
    }
 
-# Other functions that do not return a JSON object will
-# simply have a scalar result
-$balance  = $btc->getbalance("yourAccountName");
-print $balance;
+   # Other functions that do not return a JSON object will have a scalar result
+   $balance  = $btc->getbalance("yourAccountName");
+   print $balance;
 
 =head1 DESCRIPTION
 
 This module implements in PERL the functions that are currently part of the
 Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters
 are identical between the Bitcoin Core API and this module. This is done for
-consistency so that a developer does not have to reference two manuals.
+consistency so that a developer only has to reference one manual:
 https://bitcoin.org/en/developer-reference#getinfo
 
 =head1 AUTHOR

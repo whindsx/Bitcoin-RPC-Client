@@ -208,12 +208,12 @@ BTC - Bitcoin Core API RPCs
 
 =head1 SYNOPSIS
 
-use BTC::API;
+   use BTC::API;
 
-# print all avaiable API calls
-foreach $method (@BTC::API::methods) {
-   print $method;
-}
+   # print all avaiable API calls
+   foreach $method (@BTC::API::methods) {
+      print $method;
+   }
 
 =head1 DESCRIPTION
 
