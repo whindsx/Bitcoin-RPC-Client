@@ -28,9 +28,7 @@ sub AUTOLOAD {
    return if ($method eq 'DESTROY');
 
    $method =~ s/^__(\w+)__$/$1/;  # avoid to call built-in methods (ex. __VERSION__ => VERSION)
-
-   # Check that method is even availabe in the API
-   hasMethod($method);
+   # Thanks JSON::RPC::Client
 
    # Are we using SSL?
    my $uri = "http://";
@@ -64,6 +62,12 @@ sub AUTOLOAD {
 
    # Else the service is down or incorrect
    print STDERR $client->status_line;
+
+   # Check that method is even availabe in the API
+   if (hasMethod($method)) { print "\n"; }
+   # Print SYNTAX for API call
+   if (failMethod($method)) { print "\n"; }
+
    return;
 }
 
@@ -80,8 +84,20 @@ sub hasMethod {
    }
 
    if (!$hasMethod) {
-      print STDERR "error message: Method does not exist";
-      exit(0);
+      print STDERR "error : Method $method does not exist";
+   }
+
+   return 1;
+}
+
+sub failMethod {
+   my ($method) = @_;
+
+   foreach my $entry (@BTC::API::help) {
+      if ($entry =~ /$method / || $entry =~ /$method$/) {
+         print STDERR "error : usage: $entry";
+         last;
+      }
    }
 
    return 1;
