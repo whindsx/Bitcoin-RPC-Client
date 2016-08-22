@@ -26,8 +26,6 @@ sub AUTOLOAD {
    $method =~ s/.*:://;
 
    return if ($method eq 'DESTROY');
-
-   $method =~ s/^__(\w+)__$/$1/;  # avoid to call built-in methods (ex. __VERSION__ => VERSION)
    # Thanks JSON::RPC::Client
 
    # Are we using SSL?
