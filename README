@@ -1,7 +1,7 @@
-BTC
+Bitcoin::RPC::Client
 
-This module implements in PERL the functions that are currently part of the
-Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters
+This module implements in PERL the methods that are currently part of the
+Bitcoin Core RPC client calls (bitcoin-cli).The method names and parameters
 are identical between the Bitcoin Core API and this module. This is done for
 consistency so that a developer only has to reference one manual:
 https://bitcoin.org/en/developer-reference#getinfo
@@ -27,21 +27,21 @@ SUPPORT AND DOCUMENTATION
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc BTC
+    perldoc Bitcoin::RPC::Client 
 
 You can also look for information at:
 
     RT, CPAN's request tracker (report bugs here)
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=BTC
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Bitcoin-RPC-Client
 
     AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/BTC
+        http://annocpan.org/dist/Bitcoin-RPC-Client
 
     CPAN Ratings
-        http://cpanratings.perl.org/d/BTC
+        http://cpanratings.perl.org/d/Bitcoin-RPC-Client
 
     Search CPAN
-        http://search.cpan.org/dist/BTC/
+        http://search.cpan.org/dist/Bitcoin-RPC-Client/
 
 AVAILABILITY
 

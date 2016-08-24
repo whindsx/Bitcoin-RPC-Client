@@ -204,14 +204,14 @@ qq{signmessage "bitcoinaddress" "message"},
 
 =head1 NAME
 
-BTC - Bitcoin Core API RPCs
+Bitcoin::RPC::Client::API - Bitcoin Core API RPCs
 
 =head1 SYNOPSIS
 
-   use BTC::API;
+   use Bitcoin::RPC::Client::API;
 
    # print all avaiable API calls
-   foreach $method (@BTC::API::methods) {
+   foreach $method (@Bitcoin::RPC::Client::API::methods) {
       print $method;
    }
 

@@ -107,7 +107,7 @@ sub failMethod {
 
 =head1 NAME
 
-BTC - Bitcoin Core API RPCs
+Bitcoin::RPC::Client - Bitcoin Core API RPCs
 
 =head1 SYNOPSIS
 
@@ -118,8 +118,8 @@ BTC - Bitcoin Core API RPCs
    $rpcpassword = "YourBitcoindRPCPassword";
    # rpcport defaults to 8332
 
-   # Create BTC object
-   $btc = BTC->new(
+   # Create Bitcoin::RPC::Client object
+   $btc = Bitcoin::RPC::Client->new(
       user     => $rpcuser,
       password => $rpcpassword,
       host     => $rpchost,

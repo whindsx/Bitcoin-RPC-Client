@@ -4,10 +4,10 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME             => 'BTC',
+    NAME             => 'Bitcoin::RPC::Client',
     AUTHOR           => q{Wesley Hinds <wesley.hinds@swri.org>},
-    VERSION_FROM     => 'lib/BTC.pm',
-    ABSTRACT_FROM    => 'lib/BTC.pm',
+    VERSION_FROM     => 'lib/Bitcoin/RPC/Client.pm',
+    ABSTRACT_FROM    => 'lib/Bitcoin/RPC/Client.pm',
     LICENSE          => 'artistic_2',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
@@ -22,5 +22,5 @@ WriteMakefile(
         'JSON::RPC::Client' => 0.93,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'BTC-*' },
+    clean => { FILES => 'Bitcoin-*' },
 );
