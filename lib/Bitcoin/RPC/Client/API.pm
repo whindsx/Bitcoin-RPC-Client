@@ -1,4 +1,4 @@
-package BTC::API;
+package Bitcoin::RPC::Client::API;
 
 our @methods = (
 #==Blockchain}
