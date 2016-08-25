@@ -16,6 +16,8 @@ has port     => (is => "lazy", default => 8332);
 has timeout  => (is => "lazy", default => 20);
 
 # SSL constructor options
+#  OpenSSL support has been removed from Bitcoin Core as of v0.12.0
+#  but should work with older versions
 has ssl      => (is => 'ro', default => 0);
 has verify_hostname => (is => 'ro', default => 1);
 
@@ -111,19 +113,11 @@ Bitcoin::RPC::Client - Bitcoin Core API RPCs
 
 =head1 SYNOPSIS
 
-
-   # Your bitcoind instances credentials
-   $rpchost = "Your.IP.Address.Here";
-   $rpcuser = "YourBitcoindRPCUserName";
-   $rpcpassword = "YourBitcoindRPCPassword";
-   # rpcport defaults to 8332
-
    # Create Bitcoin::RPC::Client object
    $btc = Bitcoin::RPC::Client->new(
-      user     => $rpcuser,
-      password => $rpcpassword,
-      host     => $rpchost,
-      ssl      => 1 # Optional
+      user     => "username",
+      password => "p4ssword",
+      host     => "127.0.0.1",
    );
 
    # Getting Data when a hash is returned
@@ -131,8 +125,8 @@ Bitcoin::RPC::Client - Bitcoin Core API RPCs
    $balance = $info->{balance};
    print $balance;
 
-  A person would need to know the JSON elements of
-  the output. Ex.
+   A person would need to know the JSON elements of
+   the output. Ex.
 
    {
       "version" : 80100,
@@ -161,6 +155,25 @@ Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters
 are identical between the Bitcoin Core API and this module. This is done for
 consistency so that a developer only has to reference one manual:
 https://bitcoin.org/en/developer-reference#getinfo
+
+=head1 CONSTRUCTOR
+
+$btc = Bitcoin::RPC::Client->new( %options )
+
+This method creates a new C<Bitcoin::RPC::Client> and returns it.
+
+   Key                 Default
+   -----------         -----------
+   user                undef (Required)
+   password            undef (Required)
+   host                undef (Required)
+   port                8332
+   timeout             20
+   ssl                 0
+   verify_hostname     1
+
+Note: OpenSSL support has been removed from the Bitcoin Core project as of 
+v0.12.0
 
 =head1 AUTHOR
 
