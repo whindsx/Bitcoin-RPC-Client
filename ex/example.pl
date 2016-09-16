@@ -1,6 +1,6 @@
 #!/usr/bin/perl 
 
-use BTC;
+use Bitcoin::RPC::Client;
 
 ##
 # Bitcoin global Vars (user supplied)
@@ -14,7 +14,7 @@ $RPCUSER = "YourBitcoindRPCUserName";
 $RPCPASSWORD = 'YourBitcoindRPCPassword';
 
 # Create RPC object
-$btc = BTC->new(
+$btc = Bitcoin::RPC::Client->new(
     host     => $RPCHOST,
     user     => $RPCUSER,
     password => $RPCPASSWORD,

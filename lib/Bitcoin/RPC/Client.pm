@@ -113,6 +113,8 @@ Bitcoin::RPC::Client - Bitcoin Core API RPCs
 
 =head1 SYNOPSIS
 
+   use Bitcoin::RPC::Client;
+
    # Create Bitcoin::RPC::Client object
    $btc = Bitcoin::RPC::Client->new(
       user     => "username",
