@@ -14,6 +14,7 @@ has password => (is => 'ro');
 has host     => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
 has timeout  => (is => "lazy", default => 20);
+has syntax   => (is => "lazy", default => 1);
 
 # SSL constructor options
 #  OpenSSL support has been removed from Bitcoin Core as of v0.12.0
@@ -61,12 +62,16 @@ sub AUTOLOAD {
    }
 
    # Else the service is down or incorrect
-   print STDERR $client->status_line;
+   print STDERR $client->status_line . "\n";
 
-   # Check that method is even availabe in the API
-   if (hasMethod($method)) { print "\n"; }
-   # Print SYNTAX for API call
-   if (failMethod($method)) { print "\n"; }
+   # Usage errors are on by default
+   if ($self->syntax) {
+      # Check that method is even availabe in the API
+      hasMethod($method);
+
+      # Print SYNTAX for API call
+      failMethod($method);
+   }
 
    return;
 }
@@ -84,7 +89,7 @@ sub hasMethod {
    }
 
    if (!$hasMethod) {
-      print STDERR "error : Method $method does not exist";
+      print STDERR "error : Method $method does not exist\n";
    }
 
    return 1;
@@ -95,7 +100,7 @@ sub failMethod {
 
    foreach my $entry (@Bitcoin::RPC::Client::API::help) {
       if ($entry =~ /$method / || $entry =~ /$method$/) {
-         print STDERR "error : usage: $entry";
+         print STDERR "error : usage: $entry\n";
          last;
       }
    }
@@ -173,9 +178,13 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
    timeout             20
    ssl                 0
    verify_hostname     1
+   syntax              1
 
-Note: OpenSSL support has been removed from the Bitcoin Core project as of 
-v0.12.0
+   Notes: 
+   verify_hostname - OpenSSL support has been removed from the Bitcoin Core 
+   project as of v0.12.0
+   syntax - set to 0 will turn off correct method name checking as well as hide
+   usage errors. This may be needed for some methods before version v0.12.0.
 
 =head1 AUTHOR
 
