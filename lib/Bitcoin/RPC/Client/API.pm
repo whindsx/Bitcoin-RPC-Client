@@ -229,7 +229,7 @@ Wesley Hinds wesley.hinds@swri.org
 
 The latest branch is avaiable from Github.
 
-https://github.com/whinds84/BitcoinPM
+https://github.com/whinds84/Bitcoin-RPC-Client.git
 
 =head1 LICENSE AND COPYRIGHT
 

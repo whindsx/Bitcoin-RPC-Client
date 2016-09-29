@@ -1,4 +1,4 @@
-# Bitcoin::RPC::Client (BitcoinPM - Bitcoin Perl Module) 
+# Bitcoin::RPC::Client - Bitcoin Core RPC client as a PERL module
 
 This module implements in PERL the functions that are currently part of the
 Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters
