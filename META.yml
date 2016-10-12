@@ -21,4 +21,4 @@ requires:
   JSON::RPC::Client: '0.93'
   Moo: '1.001'
   perl: '5.006'
-version: '0.01'
+version: '0.02'

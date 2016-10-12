@@ -6,7 +6,7 @@ use JSON::RPC::Client;
 
 use Bitcoin::RPC::Client::API;
 
-our $VERSION  = '0.01';
+our $VERSION  = '0.02';
 
 has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Client"->new });
 has user     => (is => 'ro');
