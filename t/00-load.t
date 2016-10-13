@@ -2,12 +2,11 @@
 use 5.006;
 use strict;
 use warnings;
-use Test::More;
 
-plan tests => 1;
+use Test::More tests => 1;
 
 BEGIN {
-    use_ok( 'BTC' ) || print "Bail out!\n";
+    use_ok( 'Bitcoin::RPC::Client' ) || print "Bail out!\n";
 }
 
-diag( "Testing BTC $BTC::VERSION, Perl $], $^X" );
+diag( "Testing Bitcoin::RPC::Client $Bitcoin::RPC::Client::VERSION, Perl $], $^X" );
