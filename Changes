@@ -1,5 +1,8 @@
 Revision history for Bitcoin::RPC::Client 
 
+0.03    2016-10-13/10
+        Fixed broken test.
+
 0.02    2016-10-12/15
         Added META files.
 
