@@ -21,4 +21,6 @@ requires:
   JSON::RPC::Client: '0.93'
   Moo: '1.001'
   perl: '5.006'
+resources:
+  repository: https://github.com/whinds84/Bitcoin-RPC-Client 
 version: '0.03'
