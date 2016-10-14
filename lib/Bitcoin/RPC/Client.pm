@@ -1,6 +1,10 @@
 package Bitcoin::RPC::Client;
 
 use 5.008;
+
+use strict;
+use warnings;
+
 use Moo;
 use JSON::RPC::Client;
 

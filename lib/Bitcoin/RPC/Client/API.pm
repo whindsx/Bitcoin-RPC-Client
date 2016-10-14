@@ -1,5 +1,10 @@
 package Bitcoin::RPC::Client::API;
 
+use strict;
+use warnings;
+
+our $VERSION  = '0.03';
+
 our @methods = (
 #==Blockchain}
 qq{getbestblockhash},
