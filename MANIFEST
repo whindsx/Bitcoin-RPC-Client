@@ -1,4 +1,5 @@
 Changes
+ex/example.pl
 lib/Bitcoin/RPC/Client.pm
 lib/Bitcoin/RPC/Client/API.pm
 Makefile.PL
@@ -8,3 +9,6 @@ t/00-load.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+xt/boilerplate.t
+META.yml
+META.json
