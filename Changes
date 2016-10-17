@@ -1,5 +1,8 @@
 Revision history for Bitcoin::RPC::Client 
 
+0.04    2016-10-17/14
+        Add warnings and strict.
+
 0.03    2016-10-13/10
         Fixed broken test.
 
