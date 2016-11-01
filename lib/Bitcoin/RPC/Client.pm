@@ -184,11 +184,14 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
    verify_hostname     1
    syntax              1
 
-   Notes: 
-   verify_hostname - OpenSSL support has been removed from the Bitcoin Core 
-   project as of v0.12.0
-   syntax - set to 0 will turn off correct method name checking as well as hide
-   usage errors. This may be needed for some methods before version v0.12.0.
+verify_hostname - OpenSSL support has been removed from the Bitcoin Core 
+project as of v0.12.0.
+
+syntax - setting to 0 will turn off correct method name checking as well as 
+usage errors. This works with all versions of Bitcoin Core, but the API class 
+currently only contains what is valid for v0.12.0. You may want to turn this off
+if you are using a version other than v0.12.0 and you are getting errors you 
+think you should not be getting.
 
 =head1 AUTHOR
 
