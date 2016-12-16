@@ -19,8 +19,11 @@ INSTALL:
    - make install
 
 CAVEATS:
+   - paytxfee has not be implemented 
    - Boolean parameters do not work (true, false)
 
 TODO:
+   - Implement support for paytxfee
+   - Better error reporting
    - Figure out why boolean parameters break
    - Documentation
