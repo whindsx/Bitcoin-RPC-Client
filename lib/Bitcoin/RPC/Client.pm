@@ -18,7 +18,7 @@ has password => (is => 'ro');
 has host     => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
 has timeout  => (is => "lazy", default => 20);
-has syntax   => (is => "lazy", default => 1);
+has syntax   => (is => "lazy", default => 0);
 has debug    => (is => "lazy", default => 0);
 
 # SSL constructor options
@@ -50,6 +50,21 @@ sub AUTOLOAD {
    if ($self->debug) {
       $client->ua->add_handler("request_send",  sub { shift->dump; return });
       $client->ua->add_handler("response_done", sub { shift->dump; return });
+   } else {
+      # We want to handle broken responses ourself
+      $client->ua->add_handler("response_data", 
+         sub { 
+            my ($response, $ua, $h, $data) = @_;
+
+            if ($response->is_error) {
+               print STDERR $response->status_line;
+               print STDERR "\n";
+               print STDERR $data; 
+            }
+
+            return;
+         }
+      );
    }
 
    # For self signed certs
@@ -73,9 +88,6 @@ sub AUTOLOAD {
 
       return $res->result;
    }
-
-   # Else the service is down or incorrect
-   print STDERR $client->status_line . "\n";
 
    # Usage errors are on by default
    if ($self->syntax) {
@@ -191,15 +203,15 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
    timeout             20
    ssl                 0
    verify_hostname     1
-   syntax              1
+   syntax              0
    debug               0
 
 verify_hostname - OpenSSL support has been removed from the Bitcoin Core 
 project as of v0.12.0.
 
-syntax - setting to 0 will turn off correct method name checking as well as 
+syntax - setting to 1 will turn on correct method name checking as well as 
 usage errors. This works with all versions of Bitcoin Core, but the API class 
-currently only contains what is valid for v0.12.0. You may want to turn this off
+currently only contains what is valid for v0.12.0. You may want to keep this off
 if you are using a version other than v0.12.0 and you are getting errors you 
 think you should not be getting.
 
