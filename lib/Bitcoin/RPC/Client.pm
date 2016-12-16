@@ -57,8 +57,8 @@ sub AUTOLOAD {
             my ($response, $ua, $h, $data) = @_;
 
             if ($response->is_error) {
-               print STDERR $response->status_line;
-               print STDERR "\n";
+               #print STDERR $response->status_line;
+               #print STDERR "\n";
                print STDERR $data; 
             }
 
@@ -72,7 +72,12 @@ sub AUTOLOAD {
       $client->ua->ssl_opts( verify_hostname => 0 );
    }
 
-   my @params = @_;
+   #my @params = @_;
+   # ^ Should this be here?
+
+   # Need to fix booleans.
+   # JSON::true
+   # But cant modify @_
 
    my $obj = {
       method => $method,
