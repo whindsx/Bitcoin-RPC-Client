@@ -19,6 +19,7 @@ has host     => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
 has timeout  => (is => "lazy", default => 20);
 has syntax   => (is => "lazy", default => 1);
+has debug    => (is => "lazy", default => 0);
 
 # SSL constructor options
 #  OpenSSL support has been removed from Bitcoin Core as of v0.12.0
@@ -44,12 +45,20 @@ sub AUTOLOAD {
 
    my $client = $self->jsonrpc;
    $client->ua->timeout($self->timeout); # Because bitcoind is slow
+
+   # Turn on debugging for LWP::UserAgent
+   if ($self->debug) {
+      $client->ua->add_handler("request_send",  sub { shift->dump; return });
+      $client->ua->add_handler("response_done", sub { shift->dump; return });
+   }
+
    # For self signed certs
    if ($self->verify_hostname eq 0) {
       $client->ua->ssl_opts( verify_hostname => 0 );
    }
 
    my @params = @_;
+
    my $obj = {
       method => $method,
       params => (ref $_[0] ? $_[0] : [@_]),
@@ -183,6 +192,7 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
    ssl                 0
    verify_hostname     1
    syntax              1
+   debug               0
 
 verify_hostname - OpenSSL support has been removed from the Bitcoin Core 
 project as of v0.12.0.
@@ -193,6 +203,8 @@ currently only contains what is valid for v0.12.0. You may want to turn this off
 if you are using a version other than v0.12.0 and you are getting errors you 
 think you should not be getting.
 
+debug - Turns on raw HTTP request/response output from LWP::UserAgent.
+
 =head1 AUTHOR
 
 Wesley Hinds wesley.hinds@swri.org
@@ -201,7 +213,7 @@ Wesley Hinds wesley.hinds@swri.org
 
 The latest branch is avaiable from Github.
 
-https://github.com/whinds84/Bitcoin-RPC-Client.git
+https://github.com/whindsx/Bitcoin-RPC-Client.git
 
 =head1 LICENSE AND COPYRIGHT
 
