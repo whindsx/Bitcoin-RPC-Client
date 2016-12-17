@@ -19,11 +19,10 @@ INSTALL:
    - make install
 
 CAVEATS:
-   - paytxfee has not be implemented 
-   - Boolean parameters do not work (true, false)
+   - boolean parameters must be passed as JSON::true
+   - fees are set server side (bitcoin.conf)
 
 TODO:
-   - Implement support for paytxfee
-   - Better error reporting
-   - Figure out why boolean parameters break
+   - Parse JSON error string
+   - Implement support for fees
    - Documentation
