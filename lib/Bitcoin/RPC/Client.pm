@@ -57,9 +57,12 @@ sub AUTOLOAD {
             my ($response, $ua, $h, $data) = @_;
 
             if ($response->is_error) {
-               #print STDERR $response->status_line;
-               #print STDERR "\n";
-               print STDERR $data; 
+               my $content = JSON->new->utf8->decode($data);
+
+               print STDERR "error code: ";
+               print STDERR $content->{error}->{code} . "\n";
+               print STDERR "error message:\n";
+               print STDERR $content->{error}->{message}; 
             }
 
             return;
@@ -87,7 +90,6 @@ sub AUTOLOAD {
    my $res = $client->call( $url, $obj );
    if($res) {
       if ($res->is_error) {
-         print STDERR "error : ", $res->error_message->{message};
          return $res->error_message;
       }
 
