@@ -20,18 +20,20 @@ $btc = Bitcoin::RPC::Client->new(
     password => $RPCPASSWORD,
 );
 
-$info    = $btc->getinfo;
-$balance = $info->{balance};
+# https://bitcoin.org/en/developer-reference#getinfo
+$info   = $btc->getinfo;
+$blocks = $info->{blocks};
+print $blocks;
+print "\n";
 
+# https://bitcoin.org/en/developer-reference#getbalance
+$balance = $btc->getbalance("root", 1, JSON::true);
 print $balance;
+print "\n";
 
-#$account  = $btc->getaccount("18hrZZjnNEJiSZArcLhFF3HmXbaL8xeWAW");
-#print $account;
-
-#$balance  = $btc->getbalance("root");
-#print $balance;
-
-#$amount  = $btc->getreceivedbyaccount("xyz2013");
-#print $amount;
+# https://bitcoin.org/en/developer-reference#getblockchaininfo
+$info  = $btc->getblockchaininfo;
+print $info->{softforks}[0]->{id};
+print "\n";
 
 exit(0);
