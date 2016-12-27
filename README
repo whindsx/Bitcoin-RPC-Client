@@ -1,10 +1,10 @@
 Bitcoin::RPC::Client
 
-This module implements in PERL the methods that are currently part of the
-Bitcoin Core RPC client calls (bitcoin-cli).The method names and parameters
-are identical between the Bitcoin Core API and this module. This is done for
-consistency so that a developer only has to reference one manual:
-https://bitcoin.org/en/developer-reference#getinfo
+This module is a pure PERL implementation of the methods that are currently 
+part of the Bitcoin Core RPC client calls (bitcoin-cli). The method names and 
+parameters are identical between the Bitcoin Core API and this module. This is 
+done for consistency so that a developer only has to reference one manual:
+https://bitcoin.org/en/developer-reference#rpcs
 
 The intention is to have a lightweight pure PERL implementation of the Bitcoin
 Core API.
@@ -46,7 +46,7 @@ You can also look for information at:
 AVAILABILITY
 
 The latest branch is avaiable from Github:
-   https://github.com/whinds84/Bitcoin-RPC-Client.git
+   https://github.com/whindsx/Bitcoin-RPC-Client.git
    
 
 LICENSE AND COPYRIGHT
