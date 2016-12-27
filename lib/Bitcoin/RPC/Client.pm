@@ -164,27 +164,33 @@ Bitcoin::RPC::Client - Bitcoin Core API RPCs
    $balance = $info->{balance};
    print $balance;
 
-   A person would need to know the JSON elements of
-   the output. Ex.
-
-   {
-      "version" : 80100,
-      "protocolversion" : 70001,
-      "walletversion" : 60000,
-      "balance" : 0.00720000,
-      "blocks" : 253032,
-      "connections" : 16,
-      "proxy" : "",
-      "difficulty" : 50810339.04827648,
-      "testnet" : false,
-      "keypoololdest" : 1365114158,
-      "keypoolsize" : 101,
-      "paytxfee" : 0.00500000,
-      "errors" : ""
-   }
+   # A person would need to know the JSON elements of
+   # the output. 
+   # https://bitcoin.org/en/developer-reference#getinfo
+   #
+   # Ex.
+   #{
+   #   "version" : 80100,
+   #   "protocolversion" : 70001,
+   #   "walletversion" : 60000,
+   #   "balance" : 0.00720000,
+   #   "blocks" : 253032,
+   #   "connections" : 16,
+   #   "proxy" : "",
+   #   "difficulty" : 50810339.04827648,
+   #   "testnet" : false,
+   #   "keypoololdest" : 1365114158,
+   #   "keypoolsize" : 101,
+   #   "paytxfee" : 0.00500000,
+   #   "errors" : ""
+   #}
 
    # Other functions that do not return a JSON object will have a scalar result
    $balance  = $btc->getbalance("yourAccountName");
+   print $balance;
+
+   # JSON::Boolean objects must be passed as boolean parameters
+   $balance  = $btc->getbalance("yourAccountName", 1, JSON::true);
    print $balance;
 
 =head1 DESCRIPTION
@@ -193,7 +199,7 @@ This module implements in PERL the functions that are currently part of the
 Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters
 are identical between the Bitcoin Core API and this module. This is done for
 consistency so that a developer only has to reference one manual:
-https://bitcoin.org/en/developer-reference#getinfo
+https://bitcoin.org/en/developer-reference#remote-procedure-calls-rpcs
 
 =head1 CONSTRUCTOR
 
