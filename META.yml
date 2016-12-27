@@ -1,7 +1,7 @@
 ---
 abstract: 'Bitcoin Core API RPCs'
 author:
-  - 'Wesley Hinds <wesley.hinds@swri.org>'
+  - 'Wesley Hinds <wesley.hinds@gmail.com>'
 build_requires:
   Test::More: '0'
 configure_requires:

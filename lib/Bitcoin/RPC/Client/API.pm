@@ -228,7 +228,7 @@ https://bitcoin.org/en/developer-reference
 
 =head1 AUTHOR
 
-Wesley Hinds wesley.hinds@swri.org
+Wesley Hinds wesley.hinds@gmail.com
 
 =head1 AVAILABILITY
 

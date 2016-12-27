@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME             => 'Bitcoin::RPC::Client',
-    AUTHOR           => q{Wesley Hinds <wesley.hinds@swri.org>},
+    AUTHOR           => q{Wesley Hinds <wesley.hinds@gmail.com>},
     VERSION_FROM     => 'lib/Bitcoin/RPC/Client.pm',
     ABSTRACT_FROM    => 'lib/Bitcoin/RPC/Client.pm',
     LICENSE          => 'artistic_2',

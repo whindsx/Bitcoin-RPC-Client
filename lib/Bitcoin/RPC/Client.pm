@@ -226,7 +226,7 @@ debug - Turns on raw HTTP request/response output from LWP::UserAgent.
 
 =head1 AUTHOR
 
-Wesley Hinds wesley.hinds@swri.org
+Wesley Hinds wesley.hinds@gmail.com
 
 =head1 AVAILABILITY
 

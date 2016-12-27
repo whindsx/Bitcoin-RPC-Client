@@ -1,7 +1,7 @@
 {
    "abstract" : "Bitcoin Core API RPCs",
    "author" : [
-      "Wesley Hinds <wesley.hinds@swri.org>"
+      "Wesley Hinds <wesley.hinds@gmail.com>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.142690",
