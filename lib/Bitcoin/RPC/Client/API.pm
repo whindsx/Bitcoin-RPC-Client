@@ -234,7 +234,7 @@ Wesley Hinds wesley.hinds@gmail.com
 
 The latest branch is avaiable from Github.
 
-https://github.com/whinds84/Bitcoin-RPC-Client.git
+https://github.com/whindsx/Bitcoin-RPC-Client.git
 
 =head1 LICENSE AND COPYRIGHT
 

@@ -42,7 +42,7 @@
    "resources" : {
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/whinds84/Bitcoin-RPC-Client",
+         "url" : "https://github.com/whindsx/Bitcoin-RPC-Client",
          "web" : ""
       }
    },
