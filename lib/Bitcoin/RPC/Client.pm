@@ -48,6 +48,9 @@ sub AUTOLOAD {
    # Set timeout because bitcoin is slow
    $client->ua->timeout($self->timeout); 
 
+   # Set Agent, let them know who we be 
+   $client->ua->agent("Bitcoin::RPC::Client/" . $VERSION); 
+
    # Turn on debugging for LWP::UserAgent
    if ($self->debug) {
       $client->ua->add_handler("request_send",  sub { shift->dump; return });
