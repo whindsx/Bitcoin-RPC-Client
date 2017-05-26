@@ -44,7 +44,9 @@ sub AUTOLOAD {
    my $url = $uri . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
 
    my $client = $self->jsonrpc;
-   $client->ua->timeout($self->timeout); # Because bitcoind is slow
+
+   # Set timeout because bitcoin is slow
+   $client->ua->timeout($self->timeout); 
 
    # Turn on debugging for LWP::UserAgent
    if ($self->debug) {
