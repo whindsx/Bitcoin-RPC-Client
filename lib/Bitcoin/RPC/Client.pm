@@ -174,21 +174,23 @@ Bitcoin::RPC::Client - Bitcoin Core API RPCs
    # https://bitcoin.org/en/developer-reference#getinfo
    #
    # Ex.
-   #{
-   #   "version" : 80100,
-   #   "protocolversion" : 70001,
-   #   "walletversion" : 60000,
-   #   "balance" : 0.00720000,
-   #   "blocks" : 253032,
-   #   "connections" : 16,
-   #   "proxy" : "",
-   #   "difficulty" : 50810339.04827648,
-   #   "testnet" : false,
-   #   "keypoololdest" : 1365114158,
-   #   "keypoolsize" : 101,
-   #   "paytxfee" : 0.00500000,
-   #   "errors" : ""
-   #}
+   #   {
+   #      "version": 130000,
+   #      "protocolversion": 70014,
+   #      "walletversion": 130000,
+   #      "balance": 0.00000000,
+   #      "blocks": 584240,
+   #      "timeoffset": 28,
+   #      "connections": 8,
+   #      "proxy": "",
+   #      "difficulty": 1,
+   #      "testnet": true,
+   #      "keypoololdest": 1495241251,
+   #      "keypoolsize": 100,
+   #      "paytxfee": 0.00500000,
+   #      "relayfee": 0.00001000,
+   #      "errors": ""
+   #   }
 
    # Other functions that do not return a JSON object will have a scalar result
    $balance  = $btc->getbalance("yourAccountName");
