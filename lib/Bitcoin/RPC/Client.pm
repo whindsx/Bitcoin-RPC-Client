@@ -164,41 +164,86 @@ Bitcoin::RPC::Client - Bitcoin Core API RPCs
       host     => "127.0.0.1",
    );
 
-   # Getting Data when a hash is returned
-   $info    = $btc->getinfo;
-   $balance = $info->{balance};
-   print $balance;
-
-   # A person would need to know the JSON elements of
-   # the output. 
-   # https://bitcoin.org/en/developer-reference#getinfo
-   #
-   # Ex.
-   #   {
-   #      "version": 130000,
-   #      "protocolversion": 70014,
-   #      "walletversion": 130000,
-   #      "balance": 0.00000000,
-   #      "blocks": 584240,
-   #      "timeoffset": 28,
-   #      "connections": 8,
-   #      "proxy": "",
-   #      "difficulty": 1,
-   #      "testnet": true,
-   #      "keypoololdest": 1495241251,
-   #      "keypoolsize": 100,
-   #      "paytxfee": 0.00500000,
-   #      "relayfee": 0.00001000,
-   #      "errors": ""
-   #   }
-
-   # Other functions that do not return a JSON object will have a scalar result
+   # Functions that do not return a JSON object will have a scalar result
    $balance  = $btc->getbalance("yourAccountName");
    print $balance;
 
    # JSON::Boolean objects must be passed as boolean parameters
    $balance  = $btc->getbalance("yourAccountName", 1, JSON::true);
    print $balance;
+
+   # Getting Data when JSON/hash is returned
+   # A person would need to know the JSON elements of
+   # the output https://bitcoin.org/en/developer-reference#getinfo
+   #
+   #{
+   #  "version": 130000,
+   #  "protocolversion": 70014,
+   #  "walletversion": 130000,
+   #  "balance": 0.00000000,
+   #  "blocks": 584240,
+   #  "proxy": "",
+   #  "difficulty": 1,
+   #  "paytxfee": 0.00500000,
+   #  "relayfee": 0.00001000,
+   #  "errors": ""
+   #}
+   $info    = $btc->getinfo;
+   $balance = $info->{balance};
+   print $balance;
+   # 0.0
+
+   # JSON Objects
+   # Let's say we want the timeframe value
+   #
+   #{
+   #  "totalbytesrecv": 7137052851,
+   #  "totalbytessent": 211648636140,
+   #  "uploadtarget": {
+   #    "timeframe": 86400,
+   #    "target": 0,
+   #    "target_reached": false,
+   #    "serve_historical_blocks": true,
+   #    "bytes_left_in_cycle": 0,
+   #    "time_left_in_cycle": 0
+   #  }
+   #}
+   $nettot = $btc->getnettotals;
+   $timeframe = $nettot->{uploadtarget}{timeframe};
+   print $timeframe;
+   # 86400
+
+   # JSON arrays
+   # Let's say we want the softfork IDs from the following:
+   #
+   #{
+   #  "chain": "main",
+   #  "blocks": 464562,
+   #  "headers": 464562,
+   #  "pruned": false,
+   #  "softforks": [
+   #    {
+   #      "id": "bip34",
+   #      "version": 2,
+   #      "reject": {
+   #        "status": true
+   #      }
+   #    },
+   #    {
+   #      "id": "bip66",
+   #      "version": 3,
+   #      "reject": {
+   #        "status": true
+   #      }
+   #    }
+   $bchain = $btc->getblockchaininfo;
+   @forks = @{ $bchain->{softforks} };
+   foreach $f (@forks) {
+      print $f->{id};
+      print "\n";
+   }
+   # bip34
+   # bip66
 
 =head1 DESCRIPTION
 
