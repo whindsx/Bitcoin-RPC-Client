@@ -292,6 +292,10 @@ The latest branch is avaiable from Github.
 
 https://github.com/whindsx/Bitcoin-RPC-Client.git
 
+=head1 DONATE
+
+1Ky49cu7FLcfVmuQEHLa1WjhRiqJU2jHxe 
+
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2016 Wesley Hinds.
