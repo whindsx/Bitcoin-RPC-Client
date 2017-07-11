@@ -6,7 +6,7 @@ parameters are identical between the Bitcoin Core API and this module. This is
 done for consistency so that a developer only has to reference one manual:
 https://bitcoin.org/en/developer-reference#rpcs
 
-Currently only tested against Bitcoin Core v0.12.1 and v0.13.0 but should work
+Currently tested against Bitcoin Core v0.12.1, v0.13.0 and v0.14.0 but should work
 with other versions.
 
 DEPENDENCIES:
@@ -23,5 +23,5 @@ CAVEATS:
    - Boolean parameters must be passed as JSON::Boolean objects E.g. JSON::true
    - Fees are set server side (bitcoin.conf)
 
-TODO:
-   - Implement support for fees in constructor
+DONATE:
+   - 1Ky49cu7FLcfVmuQEHLa1WjhRiqJU2jHxe 
