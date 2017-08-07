@@ -65,6 +65,10 @@ sub AUTOLOAD {
                print STDERR $content->{error}->{code}; 
                print STDERR ", error message: ";
                print STDERR $content->{error}->{message} . " ($method)\n"; 
+            } else {
+               # If no error then ditch the handler
+               # otherwise things that did not error will get handled too
+               $ua->remove_handler();
             }
 
             return;
