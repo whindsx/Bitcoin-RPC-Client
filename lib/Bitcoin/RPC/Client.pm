@@ -62,9 +62,9 @@ sub AUTOLOAD {
                my $content = JSON->new->utf8->decode($data);
 
                print STDERR "error code: ";
-               print STDERR $content->{error}->{code} . "\n";
-               print STDERR "error message:\n";
-               print STDERR $content->{error}->{message}; 
+               print STDERR $content->{error}->{code}; 
+               print STDERR ", error message: ";
+               print STDERR $content->{error}->{message} . " ($method)\n"; 
             }
 
             return;
