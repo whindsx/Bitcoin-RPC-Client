@@ -16,10 +16,18 @@ DEPENDENCIES:
    - JSON::RPC::Client
 
 INSTALL:
-   - perl Makefile.PL
-   - make
-   - make test
-   - make install
+   - Source
+      perl Makefile.PL
+      make
+      make test
+      make install
+
+   - cpanm
+      cpanm Bitcoin::RPC::Client
+   
+   - CPAN shell
+      perl -MCPAN -e shell
+      install Bitcoin::RPC::Client
 
 CAVEATS:
    - Boolean parameters must be passed as JSON::Boolean objects E.g. JSON::true
