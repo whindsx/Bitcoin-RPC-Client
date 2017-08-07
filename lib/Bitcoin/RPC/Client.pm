@@ -8,8 +8,6 @@ use warnings;
 use Moo;
 use JSON::RPC::Client;
 
-use Bitcoin::RPC::Client::API;
-
 our $VERSION  = '0.06';
 
 has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Client"->new });
@@ -18,7 +16,6 @@ has password => (is => 'ro');
 has host     => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
 has timeout  => (is => "lazy", default => 20);
-has syntax   => (is => "lazy", default => 0);
 has debug    => (is => "lazy", default => 0);
 
 # SSL constructor options
@@ -101,48 +98,7 @@ sub AUTOLOAD {
       return $res->result;
    }
 
-   # Usage errors are on by default
-   if ($self->syntax) {
-      # Check that method is even availabe in the API
-      hasMethod($method);
-
-      # Print SYNTAX for API call
-      failMethod($method);
-   }
-
    return;
-}
-
-sub hasMethod {
-   my ($method) = @_;
-
-   # Check that method is even availabe in the API
-   my $hasMethod = 0;
-   foreach my $meth (@Bitcoin::RPC::Client::API::methods) {
-      if (lc($meth) eq lc($method)) {
-         $hasMethod = 1;
-         last;
-      }
-   }
-
-   if (!$hasMethod) {
-      print STDERR "error : Method $method does not exist\n";
-   }
-
-   return 1;
-}
-
-sub failMethod {
-   my ($method) = @_;
-
-   foreach my $entry (@Bitcoin::RPC::Client::API::help) {
-      if ($entry =~ /$method / || $entry =~ /$method$/) {
-         print STDERR "error : usage: $entry\n";
-         last;
-      }
-   }
-
-   return 1;
 }
 
 1;
@@ -274,11 +230,8 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
 verify_hostname - OpenSSL support has been removed from the Bitcoin Core 
 project as of v0.12.0.
 
-syntax - setting to 1 will turn on correct method name checking as well as 
-usage errors. This works with all versions of Bitcoin Core, but the API class 
-currently only contains what is valid for v0.12.0. You may want to keep this off
-if you are using a version other than v0.12.0 and you are getting errors you 
-think you should not be getting.
+syntax - Removed as of Bitcoin::RPC::Client v0.7, however having the value
+set will not break anything.
 
 debug - Turns on raw HTTP request/response output from LWP::UserAgent.
 
