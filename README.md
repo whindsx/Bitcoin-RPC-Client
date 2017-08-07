@@ -11,10 +11,6 @@ https://bitcoin.org/en/developer-reference#rpcs
 Currently tested against Bitcoin Core v0.12.1, v0.13.0 and v0.14.0 but should work
 with other versions.
 
-DEPENDENCIES:
-   - Moo
-   - JSON::RPC::Client
-
 INSTALL:
    - Source
       - perl Makefile.PL
@@ -28,6 +24,10 @@ INSTALL:
    - CPAN shell
       - perl -MCPAN -e shell
       - install Bitcoin::RPC::Client
+
+DEPENDENCIES:
+   - Moo
+   - JSON::RPC::Client
 
 CAVEATS:
    - Boolean parameters must be passed as JSON::Boolean objects E.g. JSON::true
