@@ -24,6 +24,8 @@ has debug    => (is => "lazy", default => 0);
 has ssl      => (is => 'ro', default => 0);
 has verify_hostname => (is => 'ro', default => 1);
 
+our $DEBUG_DUMPED = 0;
+
 sub AUTOLOAD {
    my $self   = shift;
    my $method = $Bitcoin::RPC::Client::AUTOLOAD;
@@ -50,9 +52,12 @@ sub AUTOLOAD {
 
    # Turn on debugging for LWP::UserAgent
    if ($self->debug) {
-      $client->ua->add_handler("request_send",  sub { shift->dump; return });
-      $client->ua->add_handler("response_done", sub { shift->dump; return });
-   } else {
+      if (!$DEBUG_DUMPED) { # We only want to set this up once
+         $client->ua->add_handler("request_send",  sub { shift->dump; return });
+         $client->ua->add_handler("response_done", sub { shift->dump; return });
+         $DEBUG_DUMPED = 1;
+      }
+   } else {# Don't print error message when debug is on.
       # We want to handle broken responses ourself
       $client->ua->add_handler("response_data", 
          sub { 
@@ -80,13 +85,6 @@ sub AUTOLOAD {
    if ($self->verify_hostname eq 0) {
       $client->ua->ssl_opts( verify_hostname => 0 );
    }
-
-   #my @params = @_;
-   # ^ Should this be here?
-
-   # Need to fix booleans.
-   # JSON::true
-   # But cant modify @_
 
    my $obj = {
       method => $method,
