@@ -83,7 +83,8 @@ sub AUTOLOAD {
 
    # For self signed certs
    if ($self->verify_hostname eq 0) {
-      $client->ua->ssl_opts( verify_hostname => 0 );
+      $client->ua->ssl_opts( verify_hostname => 0,
+                             SSL_verify_mode => 'SSL_VERIFY_NONE' );
    }
 
    my $obj = {
