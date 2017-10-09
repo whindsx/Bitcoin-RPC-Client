@@ -227,16 +227,23 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
    timeout             20
    ssl                 0
    verify_hostname     1
-   syntax              0
    debug               0
+   syntax              0
 
-verify_hostname - OpenSSL support has been removed from the Bitcoin Core 
-project as of v0.12.0.
+timeout - Set the timeout in seconds for individual RPC requests. Increase
+this for slow bitcoind instances.
+
+ssl - OpenSSL support has been removed from the Bitcoin Core 
+project as of v0.12.0. However Bitcoin::RPC::Client will work
+over SSL with a reverse web proxy such as nginx.
+
+verify_hostname - Disable SSL certificate verification. Needed when
+bitcoind is fronted by a proxy or when using a self-signed certificate. 
+
+debug - Turns on raw HTTP request/response output from LWP::UserAgent.
 
 syntax - Removed as of Bitcoin::RPC::Client v0.7, however having the value
 set will not break anything.
-
-debug - Turns on raw HTTP request/response output from LWP::UserAgent.
 
 =head1 AUTHOR
 
