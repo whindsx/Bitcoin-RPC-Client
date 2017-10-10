@@ -14,6 +14,7 @@ has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Client"->new });
 has user     => (is => 'ro');
 has password => (is => 'ro');
 has host     => (is => 'ro');
+has wallet   => (is => 'ro');
 has port     => (is => "lazy", default => 8332);
 has timeout  => (is => "lazy", default => 20);
 has debug    => (is => "lazy", default => 0);
@@ -41,6 +42,10 @@ sub AUTOLOAD {
       $uri = "https://";
    }
    my $url = $uri . $self->user . ":" . $self->password . "\@" . $self->host . ":" . $self->port;
+   # Tack on a specific wallet name if given
+   if ($self->wallet) {
+      $url .= "/wallet/" . $self->wallet;
+   }
 
    my $client = $self->jsonrpc;
 
@@ -224,11 +229,15 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
    password            undef (Required)
    host                undef (Required)
    port                8332
+   wallet              undef
    timeout             20
    ssl                 0
    verify_hostname     1
    debug               0
    syntax              0
+
+wallet - Work against specific wallet.dat file when Multi-wallet support is 
+enabled (Bitcoin Core v0.15+ only)
 
 timeout - Set the timeout in seconds for individual RPC requests. Increase
 this for slow bitcoind instances.
