@@ -8,8 +8,8 @@ parameters are identical between the Bitcoin Core API and this module. This is
 done for consistency so that a developer only has to reference one manual:
 https://bitcoin.org/en/developer-reference#rpcs
 
-Currently tested against Bitcoin Core v0.12.1, v0.13.0 and v0.14.0 but should work
-with other versions.
+Currently tested against Bitcoin Core v0.12.0, v0.13.0 and v0.15.0 but should work
+with earlier versions.
 
 INSTALL:
    - Source
