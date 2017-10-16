@@ -8,7 +8,7 @@ use warnings;
 use Moo;
 use JSON::RPC::Client;
 
-our $VERSION  = '0.06';
+our $VERSION  = '0.07';
 
 has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Client"->new });
 has user     => (is => 'ro');
