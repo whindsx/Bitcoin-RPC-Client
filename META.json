@@ -1,5 +1,5 @@
 {
-   "abstract" : "Bitcoin Core API RPCs",
+   "abstract" : "Bitcoin Core JSON RPC Client",
    "author" : [
       "Wesley Hinds <wesley.hinds@gmail.com>"
    ],

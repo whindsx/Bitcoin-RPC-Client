@@ -115,7 +115,7 @@ sub AUTOLOAD {
 
 =head1 NAME
 
-Bitcoin::RPC::Client - Bitcoin Core API RPCs
+Bitcoin::RPC::Client - Bitcoin Core JSON RPC Client
 
 =head1 SYNOPSIS
 
