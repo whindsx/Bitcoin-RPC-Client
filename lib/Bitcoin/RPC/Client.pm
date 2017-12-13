@@ -129,8 +129,8 @@ sub isa_cookie {
    my $failed = 0;
 
    # We only want to read this once (limit io).
-   open COOKIE, $_[0] or $failed = 1; 
-   
+   open COOKIE, $_[0] or $failed = 1;
+
    if ($failed) {
       print STDERR "Could not open RPC cookie file: " . $_[0];
       print STDERR "\n";
@@ -212,7 +212,7 @@ This method creates a new C<Bitcoin::RPC::Client> and returns it.
    host                undef (Required)
    user                undef (Required)
    password            undef (Required)
-   cookie              undef 
+   cookie              undef
    port                8332
    wallet              undef
    timeout             20
@@ -231,9 +231,9 @@ enabled (Bitcoin Core v0.15+ only)
 timeout - Set the timeout in seconds for individual RPC requests. Increase
 this for slow bitcoind instances.
 
-ssl - OpenSSL support has been removed from the Bitcoin Core
-project as of v0.12.0. However Bitcoin::RPC::Client will work
-over SSL with a reverse web proxy such as nginx.
+ssl - OpenSSL support has been removed from the Bitcoin Core project as of
+v0.12.0. However Bitcoin::RPC::Client will work over SSL with earlier versions
+or with a reverse web proxy such as nginx.
 
 verify_hostname - Disable SSL certificate verification. Needed when
 bitcoind is fronted by a proxy or when using a self-signed certificate.
