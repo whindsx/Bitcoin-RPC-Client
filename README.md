@@ -9,8 +9,10 @@ parameters are identical between the Bitcoin Core API and this module. This is
 done for consistency so that a developer only has to reference one manual:
 https://bitcoin.org/en/developer-reference#rpcs
 
-Currently tested against Bitcoin Core v0.12, v0.13, v0.14 and v0.15 but 
-should work with earlier versions.
+Currently tested against Bitcoin Core v0.12, v0.13, v0.14 and v0.15 but
+should work with earlier versions. Also, though not thoroughly tested, this
+module will work with other Bitcoin Core forks that have a bitcoind compatible
+JSON RPC API. E.g. Bitcoin Unlimited, Bitcoin UASF, Litecoin Core.
 
 INSTALL:
    - Source
@@ -21,7 +23,7 @@ INSTALL:
 
    - cpanm
       - cpanm Bitcoin::RPC::Client
-   
+
    - CPAN shell
       - perl -MCPAN -e shell
       - install Bitcoin::RPC::Client
@@ -34,4 +36,4 @@ CAVEATS:
    - Boolean parameters must be passed as JSON::Boolean objects E.g. JSON::true
 
 DONATE:
-   - 1Ky49cu7FLcfVmuQEHLa1WjhRiqJU2jHxe 
+   - 1Ky49cu7FLcfVmuQEHLa1WjhRiqJU2jHxe
