@@ -11,7 +11,7 @@ Core API.
 
 PREREQUISITES 
    Moo 
-   JSON::RPC::Client
+   JSON::RPC::Legacy::Client
 
 INSTALLATION
 

@@ -30,7 +30,7 @@ INSTALL:
 
 DEPENDENCIES:
    - Moo
-   - JSON::RPC::Client
+   - JSON::RPC::Legacy::Client
 
 CAVEATS:
    - Boolean parameters must be passed as JSON::Boolean objects E.g. JSON::true

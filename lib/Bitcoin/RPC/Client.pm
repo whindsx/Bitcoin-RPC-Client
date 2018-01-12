@@ -6,11 +6,11 @@ use strict;
 use warnings;
 
 use Moo;
-use JSON::RPC::Client;
+use JSON::RPC::Legacy::Client;
 
 our $VERSION  = '0.07';
 
-has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Client"->new });
+has jsonrpc  => (is => "lazy", default => sub { "JSON::RPC::Legacy::Client"->new });
 has user     => (is => 'ro');
 has password => (is => 'ro');
 has cookie   => (is => 'ro', isa => \&isa_cookie);
@@ -35,7 +35,6 @@ sub AUTOLOAD {
    $method =~ s/.*:://;
 
    return if ($method eq 'DESTROY');
-   # Thanks JSON::RPC::Client
 
    # Build request URL
    my $url = "";
