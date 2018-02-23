@@ -14,6 +14,20 @@ should work with earlier versions. Also, though not thoroughly tested, this
 module will work with other Bitcoin Core forks that have a bitcoind compatible
 JSON RPC API. E.g. Bitcoin Unlimited, Bitcoin UASF, Litecoin Core.
 
+SYNOPSIS:
+```perl
+   use Bitcoin::RPC::Client;
+
+   $btc = Bitcoin::RPC::Client->new(
+      user     => "username",
+      password => "p4ssword",
+      host     => "127.0.0.1",
+   );
+
+   $chaininfo = $btc->getblockchaininfo;
+   $blocks = $chaininfo->{blocks};
+```
+
 INSTALL:
    - Source
       - perl Makefile.PL
