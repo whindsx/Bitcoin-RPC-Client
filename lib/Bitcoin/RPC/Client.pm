@@ -83,11 +83,7 @@ sub AUTOLOAD {
 
             if ($response->is_error) {
                my $content = JSON->new->utf8->decode($data);
-               print STDERR "error code: ";
-               print STDERR $content->{error}->{code};
-               print STDERR ", error message: ";
-               print STDERR $content->{error}->{message} . " ($method)\n";
-               exit(1);
+               die sprintf("error code: %d, error message: %s (%s)\n", $content->{error}->{code}, $content->{error}->{message}, $method);
             } else {
                # If no error then ditch the handler
                # otherwise things that did not error will get handled too
@@ -131,16 +127,13 @@ sub isa_cookie {
    open COOKIE, $_[0] or $failed = 1;
 
    if ($failed) {
-      print STDERR "Could not open RPC cookie file: " . $_[0];
-      print STDERR "\n";
-      exit(1);
+      die sprintf("Could not open RPC cookie file: %s\n", $_[0]);
    }
 
    my $cookie = <COOKIE>;
    close COOKIE;
    if (!defined($cookie) or $cookie !~ /:/) {
-      print STDERR "Invalid RPC cookie file format\n";
-      exit(1);
+      die "Invalid RPC cookie file format\n";
    }
    $cookie =~ s/\s+//g;
    $_[0] = $cookie;
