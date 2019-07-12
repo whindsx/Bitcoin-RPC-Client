@@ -92,7 +92,7 @@ sub AUTOLOAD {
    if($res) {
       if ($res->is_error) {
           my $content = $res->content;
-          die sprintf("error code: %d, error message: %s (%s)\n", $content->{error}->{code}, $content->{error}->{message}, $method);
+          die sprintf("error code: %d, error message: %s (%s)", $content->{error}->{code}, $content->{error}->{message}, $method);
       }
 
       return $res->result;
@@ -110,13 +110,13 @@ sub isa_cookie {
    open COOKIE, $_[0] or $failed = 1;
 
    if ($failed) {
-      die sprintf("Could not open RPC cookie file: %s\n", $_[0]);
+      die sprintf("Could not open RPC cookie file: %s", $_[0]);
    }
 
    my $cookie = <COOKIE>;
    close COOKIE;
    if (!defined($cookie) or $cookie !~ /:/) {
-      die "Invalid RPC cookie file format\n";
+      die "Invalid RPC cookie file format";
    }
    $cookie =~ s/\s+//g;
    $_[0] = $cookie;
