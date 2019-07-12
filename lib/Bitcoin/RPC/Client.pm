@@ -75,24 +75,6 @@ sub AUTOLOAD {
          $client->ua->add_handler("response_done", sub { shift->dump; return });
          $DEBUG_DUMPED = 1;
       }
-   } else {# Don't print error message when debug is on.
-      # We want to handle broken responses ourself
-      $client->ua->add_handler("response_data",
-         sub {
-            my ($response, $ua, $h, $data) = @_;
-
-            if ($response->is_error) {
-               my $content = JSON->new->utf8->decode($data);
-               die sprintf("error code: %d, error message: %s (%s)\n", $content->{error}->{code}, $content->{error}->{message}, $method);
-            } else {
-               # If no error then ditch the handler
-               # otherwise things that did not error will get handled too
-               $ua->remove_handler();
-            }
-
-            return;
-         }
-      );
    }
 
    # For self signed certs
@@ -109,7 +91,8 @@ sub AUTOLOAD {
    my $res = $client->call( $url, $obj );
    if($res) {
       if ($res->is_error) {
-         return $res->error_message;
+          my $content = $res->content;
+          die sprintf("error code: %d, error message: %s (%s)\n", $content->{error}->{code}, $content->{error}->{message}, $method);
       }
 
       return $res->result;
