@@ -163,7 +163,7 @@ Bitcoin::RPC::Client - Bitcoin Core JSON RPC Client
 
    # Send to an address
    #     https://bitcoin.org/en/developer-reference#sendtoaddress
-   $transid = $btc->sendtoaddress("18uqrhFDnbkemSG1bCfRCh5G5D9jaaQUVb","0.01");
+   $transid = $btc->sendtoaddress("1DopyzQi9mX3huvGacfjpzCKFug2Dtvykp","0.01");
 
    # See ex/example.pl for more in depth JSON handling:
    #     https://github.com/whindsx/Bitcoin-RPC-Client/tree/master/ex
@@ -230,7 +230,7 @@ https://github.com/whindsx/Bitcoin-RPC-Client.git
 
 =head1 DONATE
 
-18uqrhFDnbkemSG1bCfRCh5G5D9jaaQUVb
+1DopyzQi9mX3huvGacfjpzCKFug2Dtvykp
 
 =head1 LICENSE AND COPYRIGHT
 
