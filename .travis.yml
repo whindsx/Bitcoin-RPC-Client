@@ -27,7 +27,7 @@ matrix:
 env:
   global:
     - AUTHOR_TESTING=0
-    - RELEASE_TESTING=1
+    - RELEASE_TESTING=0
 before_install:
   - eval $(curl https://travis-perl.github.io/init) --auto --always-upgrade-modules
 ### __app_cisetup__
