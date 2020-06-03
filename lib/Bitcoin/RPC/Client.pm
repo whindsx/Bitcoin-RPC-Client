@@ -7,6 +7,7 @@ use warnings;
 
 use Moo;
 use JSON::RPC::Legacy::Client;
+use IO::Socket::SSL qw( SSL_VERIFY_NONE ); 
 
 our $VERSION  = '0.10';
 
@@ -80,7 +81,7 @@ sub AUTOLOAD {
    # For self signed certs
    if ($self->verify_hostname eq 0) {
       $client->ua->ssl_opts( verify_hostname => 0,
-                             SSL_verify_mode => 'SSL_VERIFY_NONE' );
+                             SSL_verify_mode => SSL_VERIFY_NONE );
    }
 
    my $obj = {
