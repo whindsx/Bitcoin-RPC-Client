@@ -7,12 +7,13 @@ This module is a pure Perl implementation of the methods that are currently
 part of the Bitcoin Core RPC client calls (bitcoin-cli). The method names and
 parameters are identical between the Bitcoin Core API and this module. This is
 done for consistency so that a developer only has to reference one manual:
-https://bitcoin.org/en/developer-reference#rpcs
+https://developer.bitcoin.org/reference/rpc/index.html
 
-Currently tested against Bitcoin Core v0.12, v0.13, v0.14, v0.15, v0.16 and
-v0.17 but should work with earlier versions. Also, though not thoroughly tested,
-this module will work with other Bitcoin Core forks that have a bitcoind
-compatible JSON RPC API. E.g. Bitcoin Unlimited, Bitcoin UASF, Litecoin Core.
+Currently tested against Bitcoin Core v0.12, v0.13, v0.14, v0.15, v0.16, v0.17
+and v0.18 but should work with earlier versions. Also, though not thoroughly
+tested, this module will work with other Bitcoin Core forks that have a
+bitcoind compatible JSON RPC API. E.g. Bitcoin Unlimited, Bitcoin UASF,
+Litecoin Core.
 
 SYNOPSIS:
 ```perl
