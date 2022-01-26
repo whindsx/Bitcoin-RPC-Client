@@ -14,11 +14,10 @@ jobs:
     name: Build distribution
     runs-on: ubuntu-latest
     container:
-      image: perldocker/perl-tester:5.34
+      image: perldocker/perl-tester:latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          perl-version: '5.34'
+      - run: perl -V
       - run: cpanm --installdeps .
       - run: perl Makefile.PL && make && make test
       
