@@ -1,0 +1,24 @@
+name: build
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  build-job:
+    name: Build distribution
+    runs-on: ubuntu-latest
+    container:
+      image: perldocker/perl-tester:5.34
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.34'
+      - run: cpanm --installdeps .
+      - run: prove -lv t
