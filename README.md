@@ -1,7 +1,7 @@
 # Bitcoin::RPC::Client - Bitcoin Core RPC client as a Perl module
 
 [![CPAN version](https://badge.fury.io/pl/Bitcoin-RPC-Client.svg)](http://badge.fury.io/pl/Bitcoin-RPC-Client)
-[![Build](https://badge.fury.io/pl/Bitcoin-RPC-Client.svg)](https://github.com/whindsx/Bitcoin-RPC-Client/actions/workflows/action.yml)
+[![Build Status](https://github.com/whindsx/Bitcoin-RPC-Client/workflows/build/badge.svg)](https://github.com/whindsx/Bitcoin-RPC-Client/actions)
 
 This module is a pure Perl implementation of the methods that are currently
 part of the Bitcoin Core RPC client calls (bitcoin-cli). The method names and
