@@ -174,7 +174,7 @@ This module implements in Perl the functions that are currently part of the
 Bitcoin Core RPC client calls (bitcoin-cli).The function names and parameters
 are identical between the Bitcoin Core API and this module. This is done for
 consistency so that a developer only has to reference one manual:
-https://bitcoin.org/en/developer-reference#remote-procedure-calls-rpcs
+https://developer.bitcoin.org/reference/rpc/index.html
 
 =head1 CONSTRUCTOR
 
