@@ -83,12 +83,20 @@ sub AUTOLOAD {
                              SSL_verify_mode => 0 );
    }
 
+   # Build the RPC
    my $obj = {
       method => $method,
       params => (ref $_[0] ? $_[0] : [@_]),
    };
-
-   my $res = $client->call( $url, $obj );
+   my $res;
+   eval {
+      # Attempt the RPC
+      $res = $client->call( $url, $obj );
+   } or do {
+      # Test the HTTP service and die with usable output if above RPC call fails
+      my $tr = $client->ua->post($url);
+      die $tr->status_line;
+   };
    if($res) {
       if ($res->is_error) {
           my $content = $res->content;
