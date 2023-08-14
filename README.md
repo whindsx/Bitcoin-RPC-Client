@@ -8,8 +8,8 @@ part of the Bitcoin Core RPC client calls (bitcoin-cli). The method names and
 parameters are identical between the [Bitcoin Core API](https://developer.bitcoin.org/reference/rpc/index.html) and this module.
 
 Currently tested against Bitcoin Core v0.12, v0.13, v0.14, v0.15, v0.16, v0.17,
-v0.18, v0.19, v0.20, v0.21 and v0.22 but should work with earlier versions. Also,
-though not thoroughly tested, this module will work with other Bitcoin Core
+v0.18, v0.19, v0.20, v0.21, v0.22 and v0.23 but should work with earlier versions. 
+Also, though not thoroughly tested, this module will work with other Bitcoin Core
 forks that have a bitcoind compatible JSON-RPC API. E.g. Litecoin Core.
 
 SYNOPSIS:
